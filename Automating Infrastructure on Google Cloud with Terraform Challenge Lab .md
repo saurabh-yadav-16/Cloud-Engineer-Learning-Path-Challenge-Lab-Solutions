@@ -3,9 +3,19 @@
 
 ## [YouTube Solution Link](https://youtu.be/wgAsPoGLbKE)
 ## Task 1. Create the configuration files
+
+"YOUR_REGION"
+"YOUR_ZONE"
+"PROJECT_ID"
+"VPC_NAME"
+"YOUR_BUCKET_NAME"
+"YOUR_INSTANCE_NAME"
+
 Run the below commands in the cloud shell terminal
 
 ```cmd
+
+
 touch main.tf
 touch variables.tf
 mkdir modules
