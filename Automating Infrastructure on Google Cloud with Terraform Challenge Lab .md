@@ -4,12 +4,12 @@
 ## [YouTube Solution Link](https://youtu.be/wgAsPoGLbKE)
 ## Task 1. Create the configuration files
 
-"YOUR_REGION"
-"YOUR_ZONE"
-"PROJECT_ID"
-"VPC_NAME"
-"YOUR_BUCKET_NAME"
-"YOUR_INSTANCE_NAME"
+"us-central1"
+"us-central1-a"
+"qwiklabs-gcp-04-376c906b47b1"
+"tf-vpc-490155"
+"tf-bucket-106000"
+"tf-instance-488024"
 
 Run the below commands in the cloud shell terminal
 
@@ -38,15 +38,15 @@ cd
 
 ```cmd
 variable "region" {
- default = "YOUR_REGION"
+ default = "us-central1"
 }
 
 variable "zone" {
- default = "YOUR_ZONE"
+ default = "us-central1-a"
 }
 
 variable "project_id" {
- default = "PROJECT_ID"
+ default = "qwiklabs-gcp-04-376c906b47b1"
 }
 ```
 
@@ -89,7 +89,7 @@ terraform init
 resource "google_compute_instance" "tf-instance-1" {
   name         = "tf-instance-1"
   machine_type = "n1-standard-1"
-  zone         = "ZONE"
+  zone         = "us-central1-a"
 
   boot_disk {
     initialize_params {
@@ -109,7 +109,7 @@ resource "google_compute_instance" "tf-instance-1" {
 resource "google_compute_instance" "tf-instance-2" {
   name         = "tf-instance-2"
   machine_type = "n1-standard-1"
-  zone         =  "ZONE"
+  zone         =  "us-central1-a"
 
   boot_disk {
     initialize_params {
@@ -150,7 +150,7 @@ terraform apply
 
 ```cmd
 resource "google_storage_bucket" "storage-bucket" {
-  name          = "YOUR_BUCKET_NAME"
+  name          = "tf-bucket-106000"
   location      = "us"
   force_destroy = true
   uniform_bucket_level_access = true
@@ -177,7 +177,7 @@ terraform apply
 ```cmd
 terraform {
   backend "gcs" {
-    bucket  = "YOUR_BUCKET_NAME"
+    bucket  = "tf-bucket-106000"
  prefix  = "terraform/state"
   }
   required_providers {
@@ -204,9 +204,9 @@ terraform init
 
 ```cmd
 resource "google_compute_instance" "INSTANCE_NAME" {
-  name         = "YOUR_INSTANCE_NAME"
+  name         = "tf-instance-488024"
   machine_type = "n1-standard-2"
-  zone         = "ZONE"
+  zone         = "us-central1-a"
 
   boot_disk {
     initialize_params {
@@ -262,8 +262,8 @@ module "vpc" {
     source  = "terraform-google-modules/network/google"
     version = "~> 6.0.0"
 
-    project_id   = "PROJECT_ID"
-    network_name = "VPC_NAME"
+    project_id   = "qwiklabs-gcp-04-376c906b47b1"
+    network_name = "tf-vpc-490155"
     routing_mode = "GLOBAL"
 
     subnets = [
@@ -306,7 +306,7 @@ resource "google_compute_instance" "tf-instance-1"{
   }
 
   network_interface {
-    network = "VPC_NAME"
+    network = "tf-vpc-490155"
      subnetwork = "subnet-01"
   }
   metadata_startup_script = <<-EOT
@@ -318,7 +318,7 @@ resource "google_compute_instance" "tf-instance-1"{
 resource "google_compute_instance" "tf-instance-2"{
   name         = "tf-instance-2"
   machine_type = "n1-standard-2"
-  zone         = "ZONE"
+  zone         = "us-central1-a"
 
   boot_disk {
     initialize_params {
@@ -327,7 +327,7 @@ resource "google_compute_instance" "tf-instance-2"{
   }
 
   network_interface {
-    network = "VPC_NAME"
+    network = "tf-vpc-490155"
      subnetwork = "subnet-02"
   }
 
@@ -354,7 +354,7 @@ terraform apply
 ```cmd
 resource "google_compute_firewall" "tf-firewall"{
   name    = "tf-firewall"
- network = "projects/YOUR_PROJECT_ID/global/networks/YOUR_VPC_Name"
+ network = "projects/qwiklabs-gcp-04-376c906b47b1/global/networks/tf-vpc-490155"
 
   allow {
     protocol = "tcp"
